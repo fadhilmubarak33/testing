@@ -1,0 +1,264 @@
+@extends('layout') @section('nav-publikasi') active @endsection
+@section('content')
+<!-- Header -->
+<section class="header" style="margin-top: 50px">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 d-flex align-items-center">
+                <h3 class="mb-4 mb-md-0">
+                    Mari berbagi pengetahuan, dari penelitian anda berikan
+                    dampak yang baik bagi sekitar!
+                </h3>
+            </div>
+            <div class="col-6 col-md-3">
+                <img src="{{ asset('assets/kolaborasi_1.png') }}" />
+            </div>
+            <div class="col-6 col-md-3">
+                <img src="{{ asset('assets/header-1.png') }}" />
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mt-5">
+    {{-- @guest
+    <div class="alert bg-warning">
+        <span class="mr-3"
+            >Kamu belum login, login sebagai akun "Akademisi" untuk melanjutkan
+            proses kolaborasi</span
+        >
+        <a href="{{ route('login') }}" class="btn btn-dark">Login</a>
+    </div>
+    <div class="d-md-block d-none" style="height: 300px"></div>
+    @else @if (Auth::user()->role != 'akademisi')
+    <h3 class="mb-1">Akses Publikasi Tidak Diizinkan</h3>
+    <p>
+        Pastikan kamu login menggunakan akun "Akademisi" untuk dapat
+        mempublikasikan penelitian anda!
+    </p>
+    @endif @if (Auth::user()->role == 'akademisi') --}}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card" style="border-radius: 10px">
+                <div class="card-body">
+                    <center style="color: #000">
+                        <h3 class="mb-5">
+                            Form<br />
+                            Publikasi Penelitian
+                        </h3>
+                    </center>
+                    <form
+                        action="{{ route('publikasiSubmit') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+                        @csrf
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        value=""
+                                        aria-describedby="name"
+                                        placeholder="Nama Lengkap"
+                                        readonly
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        value=""
+                                        aria-describedby="instansi"
+                                        placeholder="Instansi"
+                                        readonly
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="judul"
+                                name="judul"
+                                aria-describedby="judul"
+                                placeholder="Judul Penelitian"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            @php $jenis = [ 'kriya' => 'Kriya', 'fashion' =>
+                            'Fashion', 'kuliner' => 'Kuliner', 'aplikasigame' =>
+                            'Aplikasi & Game', 'animasi' => 'Animasi',
+                            'arsitektur' => 'Arsitektur', 'desaininterior' =>
+                            'Desain Interior', 'musik' => 'Musik', 'senirupa' =>
+                            'Seni Rupa', 'desainproduk' => 'Desain Produk',
+                            'film' => 'Film', 'fotografi' => 'Fotografi',
+                            'desainkomunikasivisual' => 'Desain Komunikasi
+                            Visual', 'televisiradio' => 'Televisi dan Radio',
+                            'periklanan' => 'Periklanan', 'senipertunjukan' =>
+                            'Seni Pertunjukan', 'penerbitan' => 'Penerbitan',
+                            'pengembanggame' => 'Pengembang Game', ];
+                            asort($jenis); @endphp
+                            <select
+                                class="form-control py-0 px-2"
+                                name="kategori"
+                                id="kategori"
+                                style="height: 45px !important"
+                                required
+                            >
+                                <option value="">--Pilih sektor--</option>
+                                @foreach ($jenis as $key => $value)
+                                <option value="{{ $key }}">
+                                    Sektor {{ $value }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="nomor"
+                                        name="nomor"
+                                        aria-describedby="nomor"
+                                        placeholder="Nomor"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="volume"
+                                        name="volume"
+                                        aria-describedby="volume"
+                                        placeholder="Volume"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="tanggal"
+                                        name="tanggal"
+                                        aria-describedby="tanggal"
+                                        placeholder="Tahun Terbit"
+                                        min="1900"
+                                        max="2100"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="url_artikel"
+                                name="url_artikel"
+                                aria-describedby="url_artikel"
+                                placeholder="URL Artikel"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="tag"
+                                name="tag"
+                                aria-describedby="tag"
+                                placeholder="Tambahkan tag"
+                                required
+                            />
+                            <small
+                                >*Pisahkan dengan koma (,). Misal:
+                                animasi,aplikasi,arsitektur,dll.</small
+                            >
+                        </div>
+                        <div class="form-group">
+                            <textarea
+                                name="latar_belakang"
+                                class="form-control"
+                                placeholder="tulis latar belakang penelitian anda"
+                                id="latar_belakang"
+                                cols="30"
+                                rows="10"
+                                required
+                            ></textarea>
+                        </div>
+                        <input
+                            type="file"
+                            name="file"
+                            id="file"
+                            style="display: none"
+                        />
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <label>Upload</label>
+                                <div
+                                    class="upload p-2"
+                                    onclick="$('#file').trigger('click');"
+                                    style="
+                                        border: 1px solid #000;
+                                        border-radius: 10px;
+                                        padding: 20px;
+                                        cursor: pointer;
+                                    "
+                                >
+                                    <center>
+                                        <ion-icon
+                                            name="cloud-upload"
+                                            style="font-size: 50px"
+                                        ></ion-icon>
+                                    </center>
+                                </div>
+                                <small id="filename"></small>
+                            </div>
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-dark px-4 rounded-pill float-right"
+                        >
+                            Kirim
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- @else
+    <div class="alert bg-warning">
+        <span class="mr-3"
+            >Belum punya akun? hubungi admin untuk proses pendaftaran akun baru
+            sebagai "Akademisi"</span
+        >
+        <a
+            href="https://wa.me/6288996917955?text=Halo saya ingin membuat akun sebagai akademisi"
+            target="_blank"
+            class="btn btn-dark"
+            >Hubungi admin</a
+        >
+    </div>
+    <div class="d-md-block d-none" style="height: 300px"></div>
+    @endif @endguest --}}
+</div>
+@endsection @section('js')
+<script>
+    $("#file").change(function (a, b, c) {
+        var file = $(this)[0].files[0];
+        $("#filename").html(file.name + " size: " + file.size + " byte");
+    });
+</script>
+@endsection
